@@ -35,10 +35,12 @@ pub struct InitializeTreasury<'info> {
       //no need for seeds and bump since this is just a token account owned by authority and not a pda
     )]
     pub treasury_token_account: Account<'info, TokenAccount>,
-
+    
+    ///CHECK: This is to receive SOL tokens
     #[account(mut,seeds=[b"sol_vault"], bump)] //since dealing with pda and seeds we need to have bump
     pub sol_vault:AccountInfo<'info>,
-
+    
+    ///CHECK: This is going to be the mint authority of x_mint tokens
     #[account(seeds=[b"mint_authority"], bump)]
     pub mint_authority:AccountInfo<'info>,  
 
