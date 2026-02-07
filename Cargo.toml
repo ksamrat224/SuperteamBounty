@@ -1,4 +1,5 @@
-[workspace]
+# used for installing dependencies for all programs at once
+[workspace] 
 members = [
     "programs/*"
 ]
