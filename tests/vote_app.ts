@@ -55,13 +55,24 @@ describe("vote_app", () => {
   it("initializes treasury!", async () => {
     // Add your test here.
     const solPrice = new anchor.BN(1000_000_000); // $1 in 8 decimals
-    const tokensPerPrice = new anchor.BN(1000_000_000); // 100 tokens per $1
-    const tx = await program.methods
-      .initializeTreasury(solPrice, tokensPerPrice)
+    const tokensPerPurchase = new anchor.BN(1000_000_000); // 100 tokens per $1
+    console.log("treasuryConfigPda", treasuryConfigPda);
+     await program.methods
+      .initializeTreasury(solPrice, tokensPerPurchase)
       .accounts({
         authority: adminWallet.publicKey,
       })
       .rpc();
-    console.log("Your transaction signature", tx);
-  });
+     const treasuryAccountData = await program.account.treasuryConfig.fetch(treasuryConfigPda);
+     
+     expect(treasuryAccountData.solPrice.toNumber()).to.equal(solPrice.toNumber());
+
+     expect(treasuryAccountData.tokensPerPurchase.toNumber()).to.equal(tokensPerPurchase.toNumber());
+
+     expect(treasuryAccountData.authority.toBase58()).to.equal(adminWallet.publicKey.toBase58());
+
+     expect(treasuryAccountData.xMint.toBase58()).to.equal(xMintPda.toBase58());
+
+
+    });
 });
