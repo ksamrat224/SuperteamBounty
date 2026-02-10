@@ -86,9 +86,15 @@ pub struct BuyTokens<'info> {
     )]    
     pub buyer_token_account: Account<'info, TokenAccount>,
 
-     #[account(mut)]
+      ///CHECK: This is going to be the mint authority of x_mint tokens
+    #[account(seeds=[b"mint_authority"], bump)]
+    pub mint_authority:AccountInfo<'info>, 
+
+
+    #[account(mut)]
     pub buyer: Signer<'info>,
 
     pub token_program: Program<'info, Token>,
+    pub system_program: Program<'info, System>,
 
 }
