@@ -58,7 +58,8 @@ pub struct BuyTokens<'info> {
     #[account(
     
         seeds = [b"treasury_config"],
-        bump
+        bump,
+        constraint = treasury_config_account.x_mint == x_mint.key()
     )]
     pub treasury_config_account: Account<'info, TreasuryConfig>,
     
@@ -73,8 +74,7 @@ pub struct BuyTokens<'info> {
         
     #[account(
         
-        seeds=[b"x_mint"],
-        bump
+        mut,
     )]
     pub x_mint: Account<'info, Mint>,
 
