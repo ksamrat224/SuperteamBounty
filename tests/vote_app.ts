@@ -174,7 +174,6 @@ describe("1.Initialization", () => {
         .rpc();
       const voterAccountData = await program.account.voter.fetch(voterPda);
       expect(voterAccountData.voterId.toBase58()).to.equal(voterWallet.publicKey.toBase58());
-      expect(voterAccountData.proposalVoted).to.equal(0);
     });
   });
 });
