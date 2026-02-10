@@ -51,3 +51,44 @@ pub struct InitializeTreasury<'info> {
     pub system_program: Program<'info, System>,
 
 }
+
+#[derive(Accounts)]
+pub struct BuyTokens<'info> {
+   
+    #[account(
+    
+        seeds = [b"treasury_config"],
+        bump
+    )]
+    pub treasury_config_account: Account<'info, TreasuryConfig>,
+    
+
+    ///CHECK: This is to receive SOL tokens
+    #[account(mut,seeds=[b"sol_vault"], bump=treasury_config_account.bump)] //since dealing with pda and seeds we need to have bump
+    pub sol_vault:AccountInfo<'info>,
+
+    #[account(mut)]
+    pub treasury_token_account: Account<'info, TokenAccount>,
+
+        
+    #[account(
+        
+        seeds=[b"x_mint"],
+        bump
+    )]
+    pub x_mint: Account<'info, Mint>,
+
+     #[account(
+        mut,
+        constraint = buyer_token_account.owner == buyer.key(),
+        constraint = buyer_token_account.mint == x_mint.key(),
+    
+    )]    
+    pub buyer_token_account: Account<'info, TokenAccount>,
+
+     #[account(mut)]
+    pub buyer: Signer<'info>,
+
+    pub token_program: Program<'info, Token>,
+
+}

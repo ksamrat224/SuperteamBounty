@@ -20,6 +20,19 @@ pub mod vote_app {
        
        Ok(())
     }
+
+     pub fn buy_tokens(ctx: Context<BuyTokens>) -> Result<()> {
+      //1.user will transfer sol to sol_vault
+      let treasury_config_account: &mut Account<'_, TreasuryConfig> = &mut  ctx.accounts.treasury_config_account;
+      let sol : u64 = treasury_config_account.sol_price;
+      let token_amount : u64 = treasury_config_account.tokens_per_purchase;
+      //2. token transfer from treasury_token_account to buyer_token_account
+      //3.x mint token
+      //4.treasury_config_account. - sol price  and token amount to  transfer
+      
+      ok(())
+      
+    }
 }
 
 
