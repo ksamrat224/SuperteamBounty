@@ -24,6 +24,7 @@ pub struct Proposal {
     pub proposal_id: u8,
     pub number_of_votes: u8,
     pub deadline: i64,
+    #[max_len(200)]
     pub proposal_info: String,
     pub authority: Pubkey,
 }
