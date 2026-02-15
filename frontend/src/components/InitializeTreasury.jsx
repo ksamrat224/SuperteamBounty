@@ -26,7 +26,6 @@ const InitializeTreasury = ({ walletAddress, idlWithAddress, getProvider }) => {
     }
     const provider = getProvider();
     const program = new anchor.Program(idlWithAddress, provider);
-    console.log(program);
     let [treasuryConfigPda] = PublicKey.findProgramAddressSync(
       [new TextEncoder().encode(SEEDS.TREASURY_CONFIG)],
       program.programId,
