@@ -19,7 +19,55 @@ const InitializeTreasury = ({ walletAddress, idlWithAddress, getProvider }) => {
     return Math.floor(Number(tokens) * 1_000_000);
   };
 
-  const initializeTreasury = async () => {};
+  const initializeTreasury = async () => {
+    if (!walletAddress) {
+      alert("Please connect your wallet");
+      return;
+    }
+    const provider = getProvider();
+    const program = new anchor.Program(idlWithAddress, provider);
+    console.log(program);
+    let [treasuryConfigPda] = PublicKey.findProgramAddressSync(
+      [new TextEncoder().encode(SEEDS.TREASURY_CONFIG)],
+      program.programId,
+    );
+    let [mintAuthorityPda] = PublicKey.findProgramAddressSync(
+      [new TextEncoder().encode(SEEDS.MINT_AUTHORITY)],
+      program.programId,
+    );
+    let [solVaultPda] = PublicKey.findProgramAddressSync(
+      [new TextEncoder().encode(SEEDS.SOL_VAULT)],
+      program.programId,
+    );
+    let [xMintPda] = PublicKey.findProgramAddressSync(
+      [new TextEncoder().encode(SEEDS.X_MINT)],
+      program.programId,
+    );
+    let [proposalCounterPda] = PublicKey.findProgramAddressSync(
+      [new TextEncoder().encode(SEEDS.PROPOSAL_COUNTER)],
+      program.programId,
+    );
+    let treasuryTokenAccount = await getAssociatedTokenAddress(
+      xMintPda,
+      provider.wallet.publicKey,
+    );
+
+    const solLamports = solToLamports(solPrice);
+    const tokens = tokensToRaw(tokensPerPurchase);
+    const tx = await program.methods
+      .initializeTreasury(new anchor.BN(solLamports), new anchor.BN(tokens))
+      .accounts({
+        authority: provider.wallet.publicKey,
+        treasuryConfig: treasuryConfigPda,
+        mintAuthority: mintAuthorityPda,
+        solVault: solVaultPda,
+        xMint: xMintPda,
+        treasuryTokenAccount: treasuryTokenAccount,
+        proposalCounter: proposalCounterPda,
+      })
+      .rpc();
+    console.log("Transaction successful", tx);
+  };
   return (
     <div className="card">
       <h2>🏦 Initialize Treasury</h2>

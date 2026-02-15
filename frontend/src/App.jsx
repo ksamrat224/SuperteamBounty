@@ -15,11 +15,12 @@ import VoterInfo from "./components/VoterInfo";
 import ProposalInfo from "./components/ProposalInfo";
 import AllProposals from "./components/AllProposals";
 import TreasuryInfo from "./components/TreasuryInfo";
+import * as anchor from "@coral-xyz/anchor";
 
 import "./App.css";
 import { set } from "@coral-xyz/anchor/dist/cjs/utils/features";
 
-const programID = new PublicKey("3jfJ7Kd6hryKHjoCQeTWsrVuoDgoAz5JJ18MbxL45V2c");
+const programID = new PublicKey("67m7XiaFrPocFZJuuHPuSQUQnoGBRnsScZfcbNFah387");
 const idlWithAddress = { ...idl, address: programID.toBase58() };
 
 // Network configuration - switch between local and devnet
@@ -57,7 +58,7 @@ function App() {
       } catch (err) {
         console.error("Wallet connection error:", err);
         setError("Failed to connect wallet. Please try again.");
-      } finally{
+      } finally {
         setLoading(false);
       }
     } else {
