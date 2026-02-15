@@ -29,7 +29,14 @@ const network = "http://127.0.0.1:8899";
 const connection = new Connection(network, "processed");
 
 //getProvider function
-const getProvider = () => {};
+const getProvider = () => {
+  const provider = new anchor.AnchorProvider(
+    connection,
+    window.solana,
+    anchor.AnchorProvider.defaultOptions(),
+  );
+  return provider;
+};
 
 function App() {
   const [loading, setLoading] = useState(false);
