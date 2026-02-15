@@ -25,6 +25,7 @@ pub mod vote_app {
     treasury_config_account.sol_price = sol_price;
     treasury_config_account.x_mint = ctx.accounts.x_mint.key();
     treasury_config_account.tokens_per_purchase = tokens_per_purchase;
+    treasury_config_account.treasury_token_account = ctx.accounts.treasury_token_account.key();
 
     emit!(TreasuryInitialized {
         authority: ctx.accounts.authority.key(),

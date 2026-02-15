@@ -6,7 +6,7 @@ mod errors;
 use errors::*;
 mod events;
 use events::*;
-declare_id!("67m7XiaFrPocFZJuuHPuSQUQnoGBRnsScZfcbNFah387");
+declare_id!("GjzuRCDxJQLW2KAcbP4G8ehKbZoSLrGazWuVZvc3zso7");
 use anchor_spl::token::{mint_to, transfer, MintTo, Transfer};
 use anchor_lang::system_program;
 
