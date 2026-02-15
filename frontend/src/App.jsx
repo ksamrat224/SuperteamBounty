@@ -17,6 +17,7 @@ import AllProposals from "./components/AllProposals";
 import TreasuryInfo from "./components/TreasuryInfo";
 
 import "./App.css";
+import { set } from "@coral-xyz/anchor/dist/cjs/utils/features";
 
 const programID = new PublicKey("3jfJ7Kd6hryKHjoCQeTWsrVuoDgoAz5JJ18MbxL45V2c");
 const idlWithAddress = { ...idl, address: programID.toBase58() };
@@ -45,7 +46,27 @@ function App() {
   const [currentPage, setCurrentPage] = useState("user"); // 'user' or 'admin'
 
   // Connect Wallet
-  const connectWallet = async () => {};
+  const connectWallet = async () => {
+    if (window.solana) {
+      try {
+        setLoading(true);
+        await window.solana.connect();
+        const walletAddress = window.solana.publicKey.toString();
+        setWalletAddress(walletAddress);
+        setError(null);
+      } catch (err) {
+        console.error("Wallet connection error:", err);
+        setError("Failed to connect wallet. Please try again.");
+      } finally{
+        setLoading(false);
+      }
+    } else {
+      console.error("Solana wallet not found");
+      setError(
+        "Solana wallet not found. Please install a wallet like Phantom.",
+      );
+    }
+  };
 
   const shortenAddress = (address) => {
     if (!address) return "";
