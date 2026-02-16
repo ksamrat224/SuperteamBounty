@@ -1,1 +1,127 @@
 # SuperteamBounty
+Compares two equal-sized byte strings in constant time.
+
+Inspired by the Linux kernel's crypto_memneq.
+
+Licensed under either of
+
+* Apache License, Version 2.0 (LICENSE-APACHE)
+* MIT No Attribution License (LICENSE-MIT0)
+* CC0 1.0 Universal (LICENSE-CC0)
+
+at your option.
+
+---
+
+Project Overview
+================
+
+This repository contains a Solana on-chain program and a React frontend for an **Inter College CR Voting** dApp.
+The backend is written with the **Anchor** framework (Rust) and implements a token-based voting and treasury system.
+The frontend is built with **React + Vite** and interacts with the on-chain program using the generated Anchor IDL.
+
+High-level features:
+
+* On-chain **treasury** that sells voting tokens for SOL.
+* **Voter registration** and management.
+* **Proposal registration** with a deadline and staked tokens.
+* **Voting** on proposals using the custom token.
+* **Winner selection** after the deadline.
+* **Account cleanup** for proposals and voters (rent recovery).
+* **Admin SOL withdrawal** from the treasury vault.
+
+Main Components and File Structure
+==================================
+
+Top-level layout:
+
+* `Anchor.toml` – Anchor workspace configuration (localnet, program IDs, scripts).
+* `Cargo.toml`, `Cargo.lock`, `rust-toolchain.toml` – Rust workspace and toolchain configuration.
+* `programs/vote_app/` – Anchor on-chain program (Rust).
+  * `src/lib.rs` – Main program entry points:
+    * `initialize_treasury` – sets SOL price, tokens per purchase, mints, and config accounts.
+    * `buy_tokens` – takes SOL and mints voting tokens to the buyer.
+    * `register_voter` – creates a voter account linked to a wallet.
+    * `register_proposal` – registers a proposal, stakes tokens into the treasury, sets deadline.
+    * `proposal_to_vote` – casts a vote on a proposal, moves tokens from voter to treasury, increments vote count.
+    * `pick_winner` – picks the winning proposal after deadline based on votes.
+    * `close_proposal` – closes a proposal account and recovers rent.
+    * `close_voter` – closes a voter account and recovers rent.
+    * `withdraw_sol` – allows the authority to withdraw SOL from the vault via PDA signing.
+  * `src/state.rs`, `src/contexts.rs`, `src/errors.rs`, `src/events.rs` – account definitions, instruction contexts, custom errors, and events.
+* `tests/vote_app.ts` – Anchor TypeScript tests covering:
+  * Treasury initialization.
+  * Buying tokens for proposal creator and voter.
+  * Voter registration.
+  * Proposal registration.
+  * Casting votes.
+  * Picking a winner (with before/after deadline checks).
+  * Closing proposal and voter accounts.
+  * Admin-only SOL withdrawal from the vault.
+* `migrations/deploy.ts` – Anchor migration/deploy hook (currently a no-op skeleton).
+* `frontend/` – React + Vite frontend.
+  * `src/App.jsx` – Main UI layout and routing between:
+    * User view: proposals list, token balance, buy tokens, voter actions, proposal actions.
+    * Admin view: treasury initialization, SOL withdrawal, treasury info.
+  * `src/components/` – Feature-specific components:
+    * `InitializeTreasury.jsx`, `BuyTokens.jsx`, `TokenBalance.jsx`.
+    * `RegisterVoter.jsx`, `VoterInfo.jsx`, `CloseVoter.jsx`.
+    * `RegisterProposal.jsx`, `ProposalInfo.jsx`, `AllProposals.jsx`.
+    * `Vote.jsx`, `PickWinner.jsx`, `CloseProposal.jsx`, `TreasuryInfo.jsx`.
+  * `src/idl/idl.json` – Anchor-generated IDL used by the frontend to talk to the program.
+  * `App.css`, `index.css` – styling.
+  * `package.json`, `vite.config.js`, `eslint.config.js` – frontend tooling.
+* `target/` – Anchor build artifacts (IDL, compiled binaries, types, etc.).
+* `test-ledger/` – Local Solana ledger data for running a local validator.
+* `tests/`, `tsconfig.json`, `package.json`, `yarn.lock` – testing and TypeScript config for the Anchor workspace.
+
+How to Work on This Project (Clone and Run)
+===========================================
+
+Prerequisites:
+
+* Rust (with `cargo`) and Solana tool suite installed.
+* Anchor CLI installed.
+* Node.js + npm or yarn.
+* A Solana wallet (e.g. Phantom) in the browser for the frontend.
+
+Clone and install:
+
+1. Clone the repository.
+2. In the project root, install JS deps: `yarn` or `npm install`.
+3. In `frontend/`, install frontend deps: `yarn` or `npm install`.
+
+Run local validator and deploy program:
+
+1. Start a local Solana validator (or use the provided `test-ledger` directory).
+2. Ensure `Anchor.toml` points to `localnet` and the correct wallet.
+3. Build and deploy the program:
+   * `anchor build`
+   * `anchor deploy`
+
+Run tests:
+
+* From the project root: `anchor test` (this runs the tests in `tests/vote_app.ts`).
+
+Run the frontend:
+
+1. `cd frontend`
+2. `yarn dev` or `npm run dev`
+3. Open the printed local URL in a browser with a Solana wallet extension.
+
+Usage Flow (Conceptual)
+=======================
+
+1. **Admin** initializes the treasury (`initialize_treasury`), configuring SOL price per token and token mint.
+2. **Users** buy voting tokens by paying SOL (`buy_tokens`).
+3. A **proposal creator** registers a proposal with description, deadline, and staked tokens (`register_proposal`).
+4. **Voters** register (`register_voter`) and then vote on proposals, staking tokens when voting (`proposal_to_vote`).
+5. After the proposal deadline, **admin** (or designated authority) calls `pick_winner` to select the winning proposal.
+6. **Accounts** for proposals and voters can be closed to reclaim rent (`close_proposal`, `close_voter`).
+7. **Admin** can withdraw accumulated SOL from the vault (`withdraw_sol`).
+
+Note on This File
+=================
+
+This file originates from the `constant_time_eq` crate used in the Rust ecosystem.
+The original crate description and licensing details are preserved above, while the rest of this document has been repurposed to describe the overall voting dApp project that uses this dependency.
