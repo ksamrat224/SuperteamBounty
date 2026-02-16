@@ -6,7 +6,7 @@ mod errors;
 use errors::*;
 mod events;
 use events::*;
-declare_id!("GjzuRCDxJQLW2KAcbP4G8ehKbZoSLrGazWuVZvc3zso7");
+declare_id!("EjdSNqQr9ZrKzuT7TY6E9zXvMcYNQptJewTZA3B3DWJB");
 use anchor_spl::token::{mint_to, transfer, MintTo, Transfer};
 use anchor_lang::system_program;
 
@@ -25,6 +25,7 @@ pub mod vote_app {
     treasury_config_account.sol_price = sol_price;
     treasury_config_account.x_mint = ctx.accounts.x_mint.key();
     treasury_config_account.tokens_per_purchase = tokens_per_purchase;
+    treasury_config_account.treasury_token_account = ctx.accounts.treasury_token_account.key();
 
     emit!(TreasuryInitialized {
         authority: ctx.accounts.authority.key(),
