@@ -3,6 +3,7 @@ import { SEEDS } from "../constants/constants";
 import { PublicKey } from "@solana/web3.js";
 import * as anchor from "@coral-xyz/anchor";
 import { useState } from "react";
+import { ArrowDownToLine, Coins, AlertTriangle } from "lucide-react";
 
 const WithdrawSol = ({ walletAddress, idlWithAddress, getProvider }) => {
   const [amount, setAmount] = useState("");
@@ -30,23 +31,60 @@ const WithdrawSol = ({ walletAddress, idlWithAddress, getProvider }) => {
       .rpc();
     console.log("Transaction successful", tx);
   };
+
   return (
-    <div className="card">
-      <h2>💸 Withdraw SOL</h2>
+    <div className="card relative overflow-hidden">
+      {/* Decorative gradient blob */}
+      <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-rose-500/10 to-amber-500/10 rounded-full blur-3xl -z-10" />
+
+      <div className="flex items-center gap-3 mb-4">
+        <div className="p-2.5 rounded-xl bg-gradient-to-br from-rose-500 to-amber-500 shadow-lg shadow-rose-500/25">
+          <ArrowDownToLine className="w-5 h-5 text-white" />
+        </div>
+        <div>
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+            Withdraw SOL
+          </h2>
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            Authority only
+          </p>
+        </div>
+      </div>
+
+      {/* Warning Banner */}
+      <div className="flex items-start gap-2 p-3 mb-4 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800">
+        <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+        <p className="text-xs text-amber-700 dark:text-amber-400">
+          Only the treasury authority can withdraw SOL from the vault.
+        </p>
+      </div>
+
       <form
         onSubmit={(e) => {
           e.preventDefault();
           withdrawSol();
         }}
+        className="space-y-4"
       >
-        <input
-          type="number"
-          step="0.001"
-          placeholder="Amount in SOL (e.g., 1.5)"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        />
-        <button type="submit">Withdraw SOL</button>
+        <div>
+          <label className="input-label flex items-center gap-2">
+            <Coins className="w-3.5 h-3.5" />
+            Amount in SOL
+          </label>
+          <input
+            type="number"
+            step="0.001"
+            placeholder="e.g., 1.5"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            className="input"
+          />
+        </div>
+
+        <button type="submit" className="btn-danger w-full">
+          <ArrowDownToLine className="w-4 h-4" />
+          Withdraw SOL
+        </button>
       </form>
     </div>
   );

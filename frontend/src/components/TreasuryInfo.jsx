@@ -2,12 +2,26 @@ import React, { useState, useEffect } from "react";
 import { SEEDS } from "../constants/constants";
 import { PublicKey } from "@solana/web3.js";
 import * as anchor from "@coral-xyz/anchor";
-import { getAssociatedTokenAddress } from "@solana/spl-token";
+import {
+  Building2,
+  RefreshCw,
+  Wallet,
+  Coins,
+  Key,
+  Layers,
+  Copy,
+  Check,
+  AlertCircle,
+  Loader2,
+  CheckCircle2,
+  XCircle,
+} from "lucide-react";
 
 const TreasuryInfo = ({ walletAddress, idlWithAddress, getProvider }) => {
   const [treasuryInfo, setTreasuryInfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [copiedField, setCopiedField] = useState(null);
 
   const fetchTreasuryInfo = async () => {
     if (!walletAddress) return;
@@ -69,8 +83,10 @@ const TreasuryInfo = ({ walletAddress, idlWithAddress, getProvider }) => {
     }
   }, [walletAddress]);
 
-  const copyToClipboard = (text) => {
+  const copyToClipboard = (text, field) => {
     navigator.clipboard.writeText(text);
+    setCopiedField(field);
+    setTimeout(() => setCopiedField(null), 2000);
   };
 
   const shortenAddress = (address) => {
@@ -90,145 +106,226 @@ const TreasuryInfo = ({ walletAddress, idlWithAddress, getProvider }) => {
 
   if (!walletAddress) {
     return (
-      <div className="card treasury-info-card">
-        <h2>🏦 Treasury Information</h2>
-        <p className="info-text">Connect wallet to view treasury info</p>
+      <div className="card text-center py-10">
+        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+          <Wallet className="w-8 h-8 text-slate-400" />
+        </div>
+        <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
+          Connect Wallet
+        </h3>
+        <p className="text-sm text-slate-500 dark:text-slate-400">
+          Connect your wallet to view treasury information
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="card treasury-info-card">
-      <h2>🏦 Treasury Information</h2>
+    <div className="card-glass relative overflow-hidden">
+      {/* Decorative gradient blobs */}
+      <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-br from-emerald-500/10 to-primary-500/10 rounded-full blur-3xl -z-10" />
+      <div className="absolute bottom-0 right-0 w-48 h-48 bg-gradient-to-br from-accent-500/10 to-cyan-500/10 rounded-full blur-3xl -z-10" />
 
-      {loading && <p className="info-text">Loading treasury info...</p>}
-      {error && <p className="error-text">{error}</p>}
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className="p-3 rounded-xl bg-gradient-to-br from-emerald-500 to-primary-500 shadow-lg shadow-emerald-500/25">
+            <Building2 className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+              Treasury Information
+            </h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              System configuration & accounts
+            </p>
+          </div>
+        </div>
+        <button
+          onClick={fetchTreasuryInfo}
+          disabled={loading}
+          className="p-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors duration-200"
+        >
+          <RefreshCw
+            className={`w-5 h-5 text-slate-500 dark:text-slate-400 ${loading ? "animate-spin" : ""}`}
+          />
+        </button>
+      </div>
 
-      {treasuryInfo && (
-        <div className="treasury-details">
-          <div
-            className={`status-badge ${treasuryInfo.isInitialized ? "registered" : "not-registered"}`}
-            style={{ marginBottom: "1rem" }}
-          >
-            {treasuryInfo.isInitialized
-              ? "✓ Treasury Initialized"
-              : "✗ Not Initialized"}
+      {loading && (
+        <div className="flex items-center justify-center py-10">
+          <Loader2 className="w-8 h-8 text-primary-500 animate-spin" />
+        </div>
+      )}
+
+      {error && (
+        <div className="flex items-center gap-3 p-4 rounded-xl bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-400">
+          <AlertCircle className="w-5 h-5 flex-shrink-0" />
+          <p className="text-sm">{error}</p>
+        </div>
+      )}
+
+      {treasuryInfo && !loading && (
+        <div className="space-y-6">
+          {/* Status Badge */}
+          <div className="flex justify-center">
+            <span
+              className={`badge text-sm ${treasuryInfo.isInitialized ? "badge-success" : "badge-warning"}`}
+            >
+              {treasuryInfo.isInitialized ? (
+                <>
+                  <CheckCircle2 className="w-4 h-4" />
+                  Treasury Initialized
+                </>
+              ) : (
+                <>
+                  <XCircle className="w-4 h-4" />
+                  Not Initialized
+                </>
+              )}
+            </span>
           </div>
 
-          <div className="info-display">
-            <div className="treasury-row">
-              <span className="info-label">Treasury Config:</span>
-              <span
-                className="info-value address-value"
-                title={treasuryInfo.treasuryConfig}
-              >
-                {shortenAddress(treasuryInfo.treasuryConfig)}
-                <button
-                  className="copy-btn-small"
-                  onClick={() => copyToClipboard(treasuryInfo.treasuryConfig)}
-                >
-                  📋
-                </button>
-              </span>
-            </div>
+          {/* Account Addresses */}
+          <div className="space-y-3">
+            <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+              Account Addresses
+            </h3>
 
-            <div className="treasury-row">
-              <span className="info-label">SOL Vault:</span>
-              <span
-                className="info-value address-value"
-                title={treasuryInfo.solVault}
-              >
-                {shortenAddress(treasuryInfo.solVault)}
-                <button
-                  className="copy-btn-small"
-                  onClick={() => copyToClipboard(treasuryInfo.solVault)}
-                >
-                  📋
-                </button>
-              </span>
-            </div>
+            <AddressRow
+              icon={<Building2 className="w-4 h-4" />}
+              label="Treasury Config"
+              address={treasuryInfo.treasuryConfig}
+              onCopy={() =>
+                copyToClipboard(treasuryInfo.treasuryConfig, "config")
+              }
+              isCopied={copiedField === "config"}
+              shortenAddress={shortenAddress}
+            />
 
-            <div className="treasury-row">
-              <span className="info-label">Token Mint:</span>
-              <span
-                className="info-value address-value"
-                title={treasuryInfo.xMint}
-              >
-                {shortenAddress(treasuryInfo.xMint)}
-                <button
-                  className="copy-btn-small"
-                  onClick={() => copyToClipboard(treasuryInfo.xMint)}
-                >
-                  📋
-                </button>
-              </span>
-            </div>
+            <AddressRow
+              icon={<Wallet className="w-4 h-4" />}
+              label="SOL Vault"
+              address={treasuryInfo.solVault}
+              onCopy={() => copyToClipboard(treasuryInfo.solVault, "vault")}
+              isCopied={copiedField === "vault"}
+              shortenAddress={shortenAddress}
+            />
 
-            {treasuryInfo.isInitialized && (
-              <>
-                <div className="treasury-row">
-                  <span className="info-label">Treasury Token Account:</span>
-                  <span
-                    className="info-value address-value"
-                    title={treasuryInfo.treasuryTokenAccount}
-                  >
-                    {shortenAddress(treasuryInfo.treasuryTokenAccount)}
-                    <button
-                      className="copy-btn-small"
-                      onClick={() =>
-                        copyToClipboard(treasuryInfo.treasuryTokenAccount)
-                      }
-                    >
-                      📋
-                    </button>
-                  </span>
-                </div>
+            {treasuryInfo.xMint && (
+              <AddressRow
+                icon={<Coins className="w-4 h-4" />}
+                label="Token Mint"
+                address={treasuryInfo.xMint}
+                onCopy={() => copyToClipboard(treasuryInfo.xMint, "mint")}
+                isCopied={copiedField === "mint"}
+                shortenAddress={shortenAddress}
+              />
+            )}
 
-                <div className="treasury-row">
-                  <span className="info-label">Authority:</span>
-                  <span
-                    className="info-value address-value"
-                    title={treasuryInfo.authority}
-                  >
-                    {shortenAddress(treasuryInfo.authority)}
-                    <button
-                      className="copy-btn-small"
-                      onClick={() => copyToClipboard(treasuryInfo.authority)}
-                    >
-                      📋
-                    </button>
-                  </span>
-                </div>
+            {treasuryInfo.treasuryTokenAccount && (
+              <AddressRow
+                icon={<Layers className="w-4 h-4" />}
+                label="Treasury Token Account"
+                address={treasuryInfo.treasuryTokenAccount}
+                onCopy={() =>
+                  copyToClipboard(
+                    treasuryInfo.treasuryTokenAccount,
+                    "tokenAccount",
+                  )
+                }
+                isCopied={copiedField === "tokenAccount"}
+                shortenAddress={shortenAddress}
+              />
+            )}
 
-                <div className="treasury-config-values">
-                  <div className="config-item">
-                    <span className="config-label">SOL Price</span>
-                    <span className="config-value">
-                      {lamportsToSol(treasuryInfo.solPrice)} SOL
-                    </span>
-                  </div>
-                  <div className="config-item">
-                    <span className="config-label">Tokens Per Purchase</span>
-                    <span className="config-value">
-                      {rawToTokens(treasuryInfo.tokensPerPurchase)} Tokens
-                    </span>
-                  </div>
-                </div>
-              </>
+            {treasuryInfo.authority && (
+              <AddressRow
+                icon={<Key className="w-4 h-4" />}
+                label="Authority"
+                address={treasuryInfo.authority}
+                onCopy={() =>
+                  copyToClipboard(treasuryInfo.authority, "authority")
+                }
+                isCopied={copiedField === "authority"}
+                shortenAddress={shortenAddress}
+              />
             )}
           </div>
 
-          <button
-            className="btn btn-secondary"
-            onClick={fetchTreasuryInfo}
-            style={{ marginTop: "1rem" }}
-          >
-            🔄 Refresh
-          </button>
+          {/* Configuration Values */}
+          {treasuryInfo.isInitialized && (
+            <div className="pt-4 border-t border-slate-200/50 dark:border-slate-700/50">
+              <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-4">
+                Configuration
+              </h3>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700">
+                  <p className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-medium mb-1">
+                    SOL Price
+                  </p>
+                  <p className="text-xl font-bold text-primary-600 dark:text-primary-400">
+                    {lamportsToSol(treasuryInfo.solPrice)}
+                    <span className="text-sm font-normal text-slate-500 dark:text-slate-400 ml-1">
+                      SOL
+                    </span>
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700">
+                  <p className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-medium mb-1">
+                    Tokens Per Purchase
+                  </p>
+                  <p className="text-xl font-bold text-accent-600 dark:text-accent-400">
+                    {rawToTokens(treasuryInfo.tokensPerPurchase)}
+                    <span className="text-sm font-normal text-slate-500 dark:text-slate-400 ml-1">
+                      VOTE
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
   );
 };
+
+// Helper component for address rows
+const AddressRow = ({
+  icon,
+  label,
+  address,
+  onCopy,
+  isCopied,
+  shortenAddress,
+}) => (
+  <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700">
+    <div className="flex items-center gap-3">
+      <span className="text-slate-400">{icon}</span>
+      <div>
+        <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
+        <p
+          className="font-mono text-sm text-slate-700 dark:text-slate-300"
+          title={address}
+        >
+          {shortenAddress(address)}
+        </p>
+      </div>
+    </div>
+    <button
+      onClick={onCopy}
+      className="p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors duration-200"
+    >
+      {isCopied ? (
+        <Check className="w-4 h-4 text-emerald-500" />
+      ) : (
+        <Copy className="w-4 h-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300" />
+      )}
+    </button>
+  </div>
+);
 
 export default TreasuryInfo;

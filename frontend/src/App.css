@@ -1,203 +1,21 @@
-/* App Layout */
-.app-container {
-  min-height: 100vh;
-  padding-bottom: 4rem;
+/* App.css - Legacy styles removed, using Tailwind CSS now */
+/* This file can be deleted or kept empty */
+
+/* Add any custom animations or styles that complement Tailwind here */
+
+@keyframes gradientBorder {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
-/* Header */
-.header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 1.5rem 2rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+/* Smooth scrolling for the entire app */
+html {
+  scroll-behavior: smooth;
 }
-
-.header-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.app-title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin: 0;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-
-
-.wallet-section {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.wallet-address {
-  background: rgba(255, 255, 255, 0.15);
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  color: #fff;
-  font-family: monospace;
-}
-
-.connect-btn {
-  background: #fff;
-  color: #667eea;
-  border: none;
-  padding: 0.7rem 1.5rem;
-  border-radius: 25px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.connect-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.connect-btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-/* Page Navigation */
-.page-nav {
-  max-width: 1200px;
-  margin: 0 auto 1.5rem;
-  padding: 0 1.5rem;
-  display: flex;
-  gap: 0.5rem;
-}
-
-.nav-tab {
-  background: #2d3748;
-  border: 2px solid #4a5568;
-  border-radius: 10px;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #a0aec0;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.nav-tab:hover {
-  background: #3d4a5c;
-  color: #e2e8f0;
-}
-
-.nav-tab.active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-color: #667eea;
-  color: #fff;
-}
-
-.status-message {
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  margin: 0;
-}
-
-.status-message.error {
-  background: rgba(239, 68, 68, 0.2);
-  color: #fca5a5;
-}
-
-.status-message.loading {
-  background: rgba(59, 130, 246, 0.2);
-  color: #93c5fd;
-}
-
-/* Main Content */
-.main-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
-
-/* Section Styles */
-.section {
-  margin-bottom: 2.5rem;
-}
-
-.section-title {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #e2e8f0;
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #4a5568;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.section-title.admin::before {
-  content: "⚙️";
-}
-
-.section-title.tokens::before {
-  content: "🪙";
-}
-
-.section-title.voter::before {
-  content: "👤";
-}
-
-.section-title.proposals::before {
-  content: "📋";
-}
-
-.section-title.treasury::before {
-  content: "🏦";
-}
-
-.section-description {
-  color: #a0aec0;
-  font-size: 0.95rem;
-  margin-bottom: 1rem;
-  margin-top: -0.5rem;
-}
-
-/* Grid Layout */
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-}
-
-/* Card Styles */
-.card {
-  background: #2d3748;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: 1px solid #4a5568;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-}
-
-.card h2 {
-  font-size: 1.1rem;
   font-weight: 600;
   margin: 0 0 1rem 0;
   color: #fff;

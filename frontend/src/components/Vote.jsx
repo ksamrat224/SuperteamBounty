@@ -4,6 +4,7 @@ import { PublicKey } from "@solana/web3.js";
 import * as anchor from "@coral-xyz/anchor";
 import { useState } from "react";
 import { getAssociatedTokenAddress } from "@solana/spl-token";
+import { Vote as VoteIcon, Coins, Send } from "lucide-react";
 
 const Vote = ({ walletAddress, idlWithAddress, getProvider }) => {
   const [proposalId, setProposalId] = useState("");
@@ -69,29 +70,58 @@ const Vote = ({ walletAddress, idlWithAddress, getProvider }) => {
       .rpc();
     console.log("Transaction successful", tx);
   };
+
   return (
     <div className="card">
-      <h2>🗳️ Cast Vote</h2>
+      <div className="flex items-center gap-3 mb-6">
+        <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 shadow-lg shadow-primary-500/25">
+          <VoteIcon className="w-5 h-5 text-white" />
+        </div>
+        <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+          Cast Vote
+        </h2>
+      </div>
+
       <form
         onSubmit={(e) => {
           e.preventDefault();
           vote();
         }}
+        className="space-y-4"
       >
-        <input
-          type="number"
-          placeholder="Proposal ID"
-          value={proposalId}
-          onChange={(e) => setProposalId(e.target.value)}
-        />
-        <input
-          type="number"
-          step="0.01"
-          placeholder="Token Amount to Stake"
-          value={stakeAmount}
-          onChange={(e) => setStakeAmount(e.target.value)}
-        />
-        <button type="submit">Vote</button>
+        <div>
+          <label className="input-label flex items-center gap-2">
+            <VoteIcon className="w-3.5 h-3.5" />
+            Proposal ID
+          </label>
+          <input
+            type="number"
+            placeholder="Enter proposal ID"
+            value={proposalId}
+            onChange={(e) => setProposalId(e.target.value)}
+            className="input"
+          />
+        </div>
+
+        <div>
+          <label className="input-label flex items-center gap-2">
+            <Coins className="w-3.5 h-3.5" />
+            Token Amount to Stake
+          </label>
+          <input
+            type="number"
+            step="0.01"
+            placeholder="e.g., 10"
+            value={stakeAmount}
+            onChange={(e) => setStakeAmount(e.target.value)}
+            className="input"
+          />
+        </div>
+
+        <button type="submit" className="btn-primary w-full">
+          <Send className="w-4 h-4" />
+          Cast Vote
+        </button>
       </form>
     </div>
   );

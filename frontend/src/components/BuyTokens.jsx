@@ -6,6 +6,13 @@ import {
   getAssociatedTokenAddress,
   createAssociatedTokenAccountInstruction,
 } from "@solana/spl-token";
+import {
+  Coins,
+  Loader2,
+  CheckCircle2,
+  XCircle,
+  ShoppingCart,
+} from "lucide-react";
 
 const BuyTokens = ({
   walletAddress,
@@ -15,6 +22,7 @@ const BuyTokens = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
+  const [statusType, setStatusType] = useState(""); // 'success', 'error', 'loading'
 
   const buyTokens = async () => {
     if (!walletAddress) {
@@ -24,6 +32,7 @@ const BuyTokens = ({
 
     setLoading(true);
     setStatus("Preparing transaction...");
+    setStatusType("loading");
 
     try {
       const provider = getProvider();
@@ -77,46 +86,86 @@ const BuyTokens = ({
       setStatus("Please approve the transaction...");
       const tx = await provider.sendAndConfirm(transaction);
       console.log("Transaction successful", tx);
-      setStatus("✅ Tokens purchased successfully!");
+      setStatus("Tokens purchased successfully!");
+      setStatusType("success");
 
       // Clear success message after 3 seconds
-      setTimeout(() => setStatus(""), 3000);
+      setTimeout(() => {
+        setStatus("");
+        setStatusType("");
+      }, 3000);
     } catch (err) {
       console.error("Error buying tokens:", err);
       if (err.message?.includes("User rejected")) {
-        setStatus("❌ Transaction cancelled by user");
+        setStatus("Transaction cancelled by user");
       } else {
-        setStatus(`❌ Error: ${err.message || "Transaction failed"}`);
+        setStatus(`Error: ${err.message || "Transaction failed"}`);
       }
+      setStatusType("error");
       // Clear error message after 5 seconds
-      setTimeout(() => setStatus(""), 5000);
+      setTimeout(() => {
+        setStatus("");
+        setStatusType("");
+      }, 5000);
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <div className="card">
-      <h2>💰 Buy Tokens</h2>
-      <p style={{ color: "#a0aec0", fontSize: "0.9rem", marginBottom: "1rem" }}>
-        Purchase voting tokens to participate in proposals
+      <div className="flex items-center gap-3 mb-4">
+        <div className="p-2.5 rounded-xl bg-amber-100 dark:bg-amber-900/30">
+          <Coins className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+        </div>
+        <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+          Buy Tokens
+        </h2>
+      </div>
+
+      <p className="text-sm text-slate-600 dark:text-slate-400 mb-6">
+        Purchase voting tokens to participate in proposals. Tokens are required
+        to vote and register proposals.
       </p>
-      <button onClick={buyTokens} disabled={loading}>
-        {loading ? "Processing..." : "Buy Tokens"}
+
+      <button
+        onClick={buyTokens}
+        disabled={loading}
+        className="btn-primary w-full"
+      >
+        {loading ? (
+          <>
+            <Loader2 className="w-4 h-4 animate-spin" />
+            Processing...
+          </>
+        ) : (
+          <>
+            <ShoppingCart className="w-4 h-4" />
+            Buy Tokens
+          </>
+        )}
       </button>
+
       {status && (
-        <p
-          style={{
-            marginTop: "0.75rem",
-            fontSize: "0.85rem",
-            color: status.includes("✅")
-              ? "#48bb78"
-              : status.includes("❌")
-                ? "#fc8181"
-                : "#a0aec0",
-          }}
+        <div
+          className={`flex items-center gap-2 mt-4 p-3 rounded-xl text-sm
+          ${
+            statusType === "success"
+              ? "bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400"
+              : statusType === "error"
+                ? "bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-400"
+                : "bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800 text-primary-700 dark:text-primary-400"
+          }`}
         >
+          {statusType === "success" ? (
+            <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+          ) : statusType === "error" ? (
+            <XCircle className="w-4 h-4 flex-shrink-0" />
+          ) : (
+            <Loader2 className="w-4 h-4 flex-shrink-0 animate-spin" />
+          )}
           {status}
-        </p>
+        </div>
       )}
     </div>
   );

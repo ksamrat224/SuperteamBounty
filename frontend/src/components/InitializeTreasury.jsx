@@ -4,6 +4,7 @@ import { PublicKey } from "@solana/web3.js";
 import * as anchor from "@coral-xyz/anchor";
 import { useState } from "react";
 import { getAssociatedTokenAddress } from "@solana/spl-token";
+import { Building2, Coins, Layers, Rocket } from "lucide-react";
 
 const InitializeTreasury = ({ walletAddress, idlWithAddress, getProvider }) => {
   const [solPrice, setSolPrice] = useState("");
@@ -67,30 +68,73 @@ const InitializeTreasury = ({ walletAddress, idlWithAddress, getProvider }) => {
       .rpc();
     console.log("Transaction successful", tx);
   };
+
   return (
-    <div className="card">
-      <h2>🏦 Initialize Treasury</h2>
+    <div className="card relative overflow-hidden">
+      {/* Decorative gradient blob */}
+      <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-emerald-500/10 to-primary-500/10 rounded-full blur-3xl -z-10" />
+
+      <div className="flex items-center gap-3 mb-6">
+        <div className="p-2.5 rounded-xl bg-gradient-to-br from-emerald-500 to-primary-500 shadow-lg shadow-emerald-500/25">
+          <Building2 className="w-5 h-5 text-white" />
+        </div>
+        <div>
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+            Initialize Treasury
+          </h2>
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            Set up the voting system
+          </p>
+        </div>
+      </div>
+
       <form
         onSubmit={(e) => {
           e.preventDefault();
           initializeTreasury();
         }}
+        className="space-y-4"
       >
-        <input
-          type="number"
-          step="0.001"
-          placeholder="SOL Price (e.g., 1 for 1 SOL)"
-          value={solPrice}
-          onChange={(e) => setSolPrice(e.target.value)}
-        />
-        <input
-          type="number"
-          step="0.01"
-          placeholder="Tokens Per Purchase (e.g., 1000)"
-          value={tokensPerPurchase}
-          onChange={(e) => setTokensPerPurchase(e.target.value)}
-        />
-        <button type="submit">Initialize Treasury</button>
+        <div>
+          <label className="input-label flex items-center gap-2">
+            <Coins className="w-3.5 h-3.5" />
+            SOL Price per Purchase
+          </label>
+          <input
+            type="number"
+            step="0.001"
+            placeholder="e.g., 0.1 SOL"
+            value={solPrice}
+            onChange={(e) => setSolPrice(e.target.value)}
+            className="input"
+          />
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            Amount of SOL required to buy tokens
+          </p>
+        </div>
+
+        <div>
+          <label className="input-label flex items-center gap-2">
+            <Layers className="w-3.5 h-3.5" />
+            Tokens Per Purchase
+          </label>
+          <input
+            type="number"
+            step="0.01"
+            placeholder="e.g., 1000"
+            value={tokensPerPurchase}
+            onChange={(e) => setTokensPerPurchase(e.target.value)}
+            className="input"
+          />
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            Number of tokens minted per purchase
+          </p>
+        </div>
+
+        <button type="submit" className="btn-primary w-full">
+          <Rocket className="w-4 h-4" />
+          Initialize Treasury
+        </button>
       </form>
     </div>
   );

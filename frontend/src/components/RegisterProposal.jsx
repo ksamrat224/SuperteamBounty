@@ -4,6 +4,7 @@ import { PublicKey } from "@solana/web3.js";
 import * as anchor from "@coral-xyz/anchor";
 import { useState } from "react";
 import { getAssociatedTokenAddress } from "@solana/spl-token";
+import { FileEdit, Calendar, Coins, PlusCircle } from "lucide-react";
 
 const RegisterProposal = ({ walletAddress, idlWithAddress, getProvider }) => {
   const [proposalDescription, setProposalDescription] = useState("");
@@ -82,35 +83,72 @@ const RegisterProposal = ({ walletAddress, idlWithAddress, getProvider }) => {
       .rpc();
     console.log("Transaction successful", tx);
   };
+
   return (
     <div className="card">
-      <h2>📝 Register Proposal</h2>
+      <div className="flex items-center gap-3 mb-6">
+        <div className="p-2.5 rounded-xl bg-primary-100 dark:bg-primary-900/30">
+          <FileEdit className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+        </div>
+        <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+          Register Proposal
+        </h2>
+      </div>
+
       <form
         onSubmit={(e) => {
           e.preventDefault();
           registerProposal();
         }}
+        className="space-y-4"
       >
-        <input
-          type="text"
-          placeholder="Proposal Description"
-          value={proposalDescription}
-          onChange={(e) => setProposalDescription(e.target.value)}
-        />
-        <input
-          type="datetime-local"
-          placeholder="Deadline"
-          value={deadline}
-          onChange={(e) => setDeadline(e.target.value)}
-        />
-        <input
-          type="number"
-          step="0.01"
-          placeholder="Token Stake Amount"
-          value={stakeAmount}
-          onChange={(e) => setStakeAmount(e.target.value)}
-        />
-        <button type="submit">Register Proposal</button>
+        <div>
+          <label className="input-label flex items-center gap-2">
+            <FileEdit className="w-3.5 h-3.5" />
+            Description
+          </label>
+          <input
+            type="text"
+            placeholder="Enter proposal description"
+            value={proposalDescription}
+            onChange={(e) => setProposalDescription(e.target.value)}
+            className="input"
+          />
+        </div>
+
+        <div>
+          <label className="input-label flex items-center gap-2">
+            <Calendar className="w-3.5 h-3.5" />
+            Deadline
+          </label>
+          <input
+            type="datetime-local"
+            placeholder="Deadline"
+            value={deadline}
+            onChange={(e) => setDeadline(e.target.value)}
+            className="input"
+          />
+        </div>
+
+        <div>
+          <label className="input-label flex items-center gap-2">
+            <Coins className="w-3.5 h-3.5" />
+            Token Stake Amount
+          </label>
+          <input
+            type="number"
+            step="0.01"
+            placeholder="e.g., 100"
+            value={stakeAmount}
+            onChange={(e) => setStakeAmount(e.target.value)}
+            className="input"
+          />
+        </div>
+
+        <button type="submit" className="btn-primary w-full">
+          <PlusCircle className="w-4 h-4" />
+          Register Proposal
+        </button>
       </form>
     </div>
   );
