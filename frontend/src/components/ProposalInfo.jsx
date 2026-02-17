@@ -86,7 +86,7 @@ const ProposalInfo = ({ walletAddress, idlWithAddress, getProvider }) => {
             className="input"
           />
         </div>
-        <button type="submit" className="btn-primary w-full">
+        <button type="submit" className="bg-blue-600 w-full rounded-lg py-2.5 flex items-center justify-center gap-2 transition-all duration-200">
           <Search className="w-4 h-4" />
           Fetch Proposal
         </button>

@@ -154,7 +154,7 @@ const AllProposals = ({ walletAddress, idlWithAddress, getProvider }) => {
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
                 ${
                   filter === "active"
-                    ? "bg-gradient-to-r from-primary-600 to-accent-500 text-white shadow-md"
+                    ? "bg-green-900 text-white shadow-md"
                     : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800"
                 }`}
             >
@@ -169,7 +169,7 @@ const AllProposals = ({ walletAddress, idlWithAddress, getProvider }) => {
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
                 ${
                   filter === "ended"
-                    ? "bg-gradient-to-r from-primary-600 to-accent-500 text-white shadow-md"
+                    ? "bg-red-900 text-white shadow-md"
                     : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800"
                 }`}
             >
@@ -184,7 +184,7 @@ const AllProposals = ({ walletAddress, idlWithAddress, getProvider }) => {
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
                 ${
                   filter === "all"
-                    ? "bg-gradient-to-r from-primary-600 to-accent-500 text-white shadow-md"
+                    ? "bg-yellow-800 text-white shadow-md"
                     : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800"
                 }`}
             >
@@ -200,7 +200,7 @@ const AllProposals = ({ walletAddress, idlWithAddress, getProvider }) => {
           <button
             onClick={fetchAllProposals}
             disabled={loading}
-            className="btn-secondary !py-2.5 !px-4 text-sm"
+            className="btn-secondary !py-2.5 !px-4 text-sm rounded-lg flex items-center gap-2 transition-all duration-200"
           >
             {loading ? (
               <Loader2 className="w-4 h-4 animate-spin" />

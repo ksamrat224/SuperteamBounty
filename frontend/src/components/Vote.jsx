@@ -74,7 +74,7 @@ const Vote = ({ walletAddress, idlWithAddress, getProvider }) => {
   return (
     <div className="card">
       <div className="flex items-center gap-3 mb-6">
-        <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 shadow-lg shadow-primary-500/25">
+        <div className="p-2.5 rounded-xl dark:bg-primary-900/30">
           <VoteIcon className="w-5 h-5 text-white" />
         </div>
         <h2 className="text-lg font-bold text-slate-900 dark:text-white">
@@ -91,7 +91,6 @@ const Vote = ({ walletAddress, idlWithAddress, getProvider }) => {
       >
         <div>
           <label className="input-label flex items-center gap-2">
-            <VoteIcon className="w-3.5 h-3.5" />
             Proposal ID
           </label>
           <input
@@ -105,20 +104,19 @@ const Vote = ({ walletAddress, idlWithAddress, getProvider }) => {
 
         <div>
           <label className="input-label flex items-center gap-2">
-            <Coins className="w-3.5 h-3.5" />
             Token Amount to Stake
           </label>
           <input
             type="number"
             step="0.01"
-            placeholder="e.g., 10"
+            placeholder="e.g. 10"
             value={stakeAmount}
             onChange={(e) => setStakeAmount(e.target.value)}
             className="input"
           />
         </div>
 
-        <button type="submit" className="btn-primary w-full">
+        <button type="submit" className="w-full bg-yellow-700 rounded-lg py-2.5 flex items-center justify-center gap-2 transition-all duration-200">
           <Send className="w-4 h-4" />
           Cast Vote
         </button>

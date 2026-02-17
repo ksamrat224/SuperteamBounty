@@ -15,7 +15,6 @@ import VoterInfo from "./components/VoterInfo";
 import ProposalInfo from "./components/ProposalInfo";
 import AllProposals from "./components/AllProposals";
 import TreasuryInfo from "./components/TreasuryInfo";
-import ThemeToggle from "./components/ThemeToggle";
 import * as anchor from "@coral-xyz/anchor";
 import {
   Vote as VoteIcon,
@@ -81,15 +80,9 @@ function App() {
     return `${address.slice(0, 4)}...${address.slice(-4)}`;
   };
 
-  // Initialize dark mode on mount
+  // Force dark mode on mount
   useEffect(() => {
-    const saved = localStorage.getItem("theme");
-    if (
-      saved === "dark" ||
-      (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
-      document.documentElement.classList.add("dark");
-    }
+    document.documentElement.classList.add("dark");
   }, []);
 
   return (
@@ -100,11 +93,11 @@ function App() {
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo & Title */}
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-primary-600 to-accent-500 shadow-lg shadow-primary-500/25">
+              <div className="p-2 rounded-xl  shadow-lg shadow-primary-500/25">
                 <VoteIcon className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-lg md:text-xl font-bold gradient-text">
+                <h1 className="text-lg md:text-xl font-bold ">
                   Inter College CR Voting
                 </h1>
                 <p className="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">
@@ -116,14 +109,19 @@ function App() {
             {/* Right side: Theme toggle, Network, Wallet */}
             <div className="flex items-center gap-2 md:gap-4">
               {/* Network Indicator */}
-              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30">
                 <span className="text-xs font-medium text-emerald-700 dark:text-emerald-400">
-                  Localnet
+                  <a
+                    href="https://walletadapter.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ marginLeft: "auto" }}
+                  >
+                    {/* You can use an icon here if desired */}
+                    Know More?
+                  </a>
                 </span>
               </div>
-
-              <ThemeToggle />
 
               {/* Wallet Connection */}
               <div className="flex items-center gap-2">
@@ -136,7 +134,7 @@ function App() {
                 <button
                   onClick={connectWallet}
                   disabled={loading}
-                  className={`btn ${walletAddress ? "btn-secondary" : "btn-primary"} !py-2.5 !px-4 text-sm`}
+                  className={`btn rounded-lg ${walletAddress ? "btn-secondary" : "bg-teal-600"} py-2.5! px-4! text-sm`}
                 >
                   {loading ? (
                     <>
@@ -177,10 +175,10 @@ function App() {
           <div className="flex gap-1 py-2">
             <button
               onClick={() => setCurrentPage("user")}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-200
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-200
                 ${
                   currentPage === "user"
-                    ? "bg-gradient-to-r from-primary-600 to-accent-500 text-white shadow-lg shadow-primary-500/25"
+                    ? "bg-purple-700 text-white shadow-lg shadow-primary-500/25"
                     : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white"
                 }`}
             >
@@ -189,10 +187,10 @@ function App() {
             </button>
             <button
               onClick={() => setCurrentPage("admin")}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-200
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-200
                 ${
                   currentPage === "admin"
-                    ? "bg-gradient-to-r from-primary-600 to-accent-500 text-white shadow-lg shadow-primary-500/25"
+                    ? "bg-purple-700 text-white shadow-lg shadow-primary-500/25"
                     : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white"
                 }`}
             >

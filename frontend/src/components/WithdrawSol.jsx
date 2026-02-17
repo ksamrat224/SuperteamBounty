@@ -52,8 +52,7 @@ const WithdrawSol = ({ walletAddress, idlWithAddress, getProvider }) => {
       </div>
 
       {/* Warning Banner */}
-      <div className="flex items-start gap-2 p-3 mb-4 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800">
-        <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+      <div className="flex items-start  p-3 mb-4 rounded-xl ">
         <p className="text-xs text-amber-700 dark:text-amber-400">
           Only the treasury authority can withdraw SOL from the vault.
         </p>
@@ -68,7 +67,6 @@ const WithdrawSol = ({ walletAddress, idlWithAddress, getProvider }) => {
       >
         <div>
           <label className="input-label flex items-center gap-2">
-            <Coins className="w-3.5 h-3.5" />
             Amount in SOL
           </label>
           <input
@@ -81,7 +79,10 @@ const WithdrawSol = ({ walletAddress, idlWithAddress, getProvider }) => {
           />
         </div>
 
-        <button type="submit" className="btn-danger w-full">
+        <button
+          type="submit"
+          className="btn-danger w-full flex items-center justify-center gap-2 py-2.5 transition-all duration-200 hover:bg-red-700 rounded-lg"
+        >
           <ArrowDownToLine className="w-4 h-4" />
           Withdraw SOL
         </button>

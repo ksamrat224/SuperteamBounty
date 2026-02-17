@@ -131,7 +131,7 @@ const BuyTokens = ({
       <button
         onClick={buyTokens}
         disabled={loading}
-        className="btn-primary w-full"
+        className=" bg-green-600 w-full rounded-lg py-2.5 flex items-center justify-center gap-2 transition-all duration-200"
       >
         {loading ? (
           <>

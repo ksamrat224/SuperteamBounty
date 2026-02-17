@@ -74,7 +74,7 @@ const VoterInfo = ({ walletAddress, idlWithAddress, getProvider }) => {
 
       <div className="flex justify-center mb-4">
         <span
-          className={`badge ${isRegistered ? "badge-success" : "badge-warning"}`}
+          className={`badge ${isRegistered ? "bg-green-700" : "bg-red-700"} gap-2`}
         >
           {isRegistered ? (
             <>
@@ -109,9 +109,9 @@ const VoterInfo = ({ walletAddress, idlWithAddress, getProvider }) => {
               <p className="text-xs text-slate-500 dark:text-slate-400">
                 Proposal Voted
               </p>
-              <p className="font-semibold text-primary-600 dark:text-primary-400">
+              <p className="font-mono text-sm text-primary-600 dark:text-primary-400">
                 {voterData.proposalVoted === 0
-                  ? "Not voted yet"
+                  ? "yet to vote"
                   : `Proposal #${voterData.proposalVoted}`}
               </p>
             </div>

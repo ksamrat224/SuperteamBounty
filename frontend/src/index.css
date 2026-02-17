@@ -132,16 +132,12 @@ h1, h2, h3, h4, h5, h6 {
   background-color: white;
   border: 1px solid rgba(226, 232, 240, 0.5);
   border-radius: 1rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
   transition: all 0.3s;
   backdrop-filter: blur(4px);
 }
 
-.card:hover {
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  transform: translateY(-4px);
-}
+
 
 .dark .card {
   background-color: rgba(30, 41, 59, 0.8);
@@ -149,9 +145,7 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: var(--shadow-card-dark);
 }
 
-.dark .card:hover {
-  box-shadow: var(--shadow-glow);
-}
+
 
 /* Glass card */
 .card-glass {

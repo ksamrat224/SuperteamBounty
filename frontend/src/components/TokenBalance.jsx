@@ -59,7 +59,7 @@ const TokenBalance = ({
 
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 shadow-lg shadow-primary-500/25">
+          <div className="p-2.5 rounded-lg shadow-lg shadow-primary-500/25 bg-green-600">
             <Gem className="w-5 h-5 text-white" />
           </div>
           <h2 className="text-lg font-bold text-slate-900 dark:text-white">
@@ -82,7 +82,7 @@ const TokenBalance = ({
           Your Voting Tokens
         </p>
         <div className="flex items-center justify-center gap-2">
-          <span className="text-4xl font-bold bg-gradient-to-r from-primary-600 via-accent-500 to-primary-400 bg-clip-text text-transparent">
+          <span className="text-4xl font-bold  bg-clip-text">
             {loading ? "..." : displayBalance}
           </span>
           <span className="text-lg font-medium text-slate-500 dark:text-slate-400">

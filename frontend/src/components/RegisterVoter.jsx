@@ -38,7 +38,7 @@ const RegisterVoter = ({ walletAddress, idlWithAddress, getProvider }) => {
         be registered before casting any votes.
       </p>
 
-      <button onClick={registerVoter} className="btn-success w-full">
+      <button onClick={registerVoter} className="w-full bg-green-600 rounded-lg py-2.5 flex items-center justify-center gap-2 transition-all duration-200">
         <UserPlus className="w-4 h-4" />
         Register Voter
       </button>

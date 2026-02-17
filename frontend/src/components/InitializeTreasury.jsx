@@ -97,7 +97,6 @@ const InitializeTreasury = ({ walletAddress, idlWithAddress, getProvider }) => {
       >
         <div>
           <label className="input-label flex items-center gap-2">
-            <Coins className="w-3.5 h-3.5" />
             SOL Price per Purchase
           </label>
           <input
@@ -115,7 +114,6 @@ const InitializeTreasury = ({ walletAddress, idlWithAddress, getProvider }) => {
 
         <div>
           <label className="input-label flex items-center gap-2">
-            <Layers className="w-3.5 h-3.5" />
             Tokens Per Purchase
           </label>
           <input
@@ -131,7 +129,10 @@ const InitializeTreasury = ({ walletAddress, idlWithAddress, getProvider }) => {
           </p>
         </div>
 
-        <button type="submit" className="btn-primary w-full">
+        <button
+          type="submit"
+          className=" w-full bg-gradient-to-br from-emerald-500 to-primary-500 shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-2 rounded-lg py-2.5 transition-all duration-200 hover:shadow-emerald-500/40"
+        >
           <Rocket className="w-4 h-4" />
           Initialize Treasury
         </button>

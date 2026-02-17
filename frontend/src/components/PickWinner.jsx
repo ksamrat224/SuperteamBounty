@@ -40,7 +40,7 @@ const PickWinner = ({ walletAddress, idlWithAddress, getProvider }) => {
       <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-500/10 to-yellow-500/10 rounded-full blur-3xl -z-10" />
 
       <div className="flex items-center gap-3 mb-6">
-        <div className="p-2.5 rounded-xl bg-gradient-to-br from-amber-400 to-yellow-500 shadow-lg shadow-amber-500/25">
+        <div className="p-2.5 rounded-xl bg-yellow-100 dark:bg-yellow-900">
           <Trophy className="w-5 h-5 text-white" />
         </div>
         <h2 className="text-lg font-bold text-slate-900 dark:text-white">
@@ -57,7 +57,6 @@ const PickWinner = ({ walletAddress, idlWithAddress, getProvider }) => {
       >
         <div>
           <label className="input-label flex items-center gap-2">
-            <Vote className="w-3.5 h-3.5" />
             Proposal ID
           </label>
           <input
@@ -71,7 +70,7 @@ const PickWinner = ({ walletAddress, idlWithAddress, getProvider }) => {
 
         <button
           type="submit"
-          className="btn-primary w-full bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600"
+          className=" w-full bg-yellow-600 rounded-lg py-2.5 flex items-center justify-center gap-2 transition-all duration-200"
         >
           <Trophy className="w-4 h-4" />
           Pick Winner

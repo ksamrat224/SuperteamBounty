@@ -170,7 +170,7 @@ const TreasuryInfo = ({ walletAddress, idlWithAddress, getProvider }) => {
           {/* Status Badge */}
           <div className="flex justify-center">
             <span
-              className={`badge text-sm ${treasuryInfo.isInitialized ? "badge-success" : "badge-warning"}`}
+              className={`badge text-sm ${treasuryInfo.isInitialized ? "text-green-500" : "text-red-500"}`}
             >
               {treasuryInfo.isInitialized ? (
                 <>
@@ -265,7 +265,7 @@ const TreasuryInfo = ({ walletAddress, idlWithAddress, getProvider }) => {
                   <p className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-medium mb-1">
                     SOL Price
                   </p>
-                  <p className="text-xl font-bold text-primary-600 dark:text-primary-400">
+                  <p className="text-xl font-bold ">
                     {lamportsToSol(treasuryInfo.solPrice)}
                     <span className="text-sm font-normal text-slate-500 dark:text-slate-400 ml-1">
                       SOL
@@ -277,7 +277,7 @@ const TreasuryInfo = ({ walletAddress, idlWithAddress, getProvider }) => {
                   <p className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-medium mb-1">
                     Tokens Per Purchase
                   </p>
-                  <p className="text-xl font-bold text-accent-600 dark:text-accent-400">
+                  <p className="text-xl font-bold ">
                     {rawToTokens(treasuryInfo.tokensPerPurchase)}
                     <span className="text-sm font-normal text-slate-500 dark:text-slate-400 ml-1">
                       VOTE

@@ -34,15 +34,14 @@ const CloseVoter = ({ walletAddress, idlWithAddress, getProvider }) => {
       </div>
 
       {/* Warning Banner */}
-      <div className="flex items-start gap-2 p-3 mb-4 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800">
-        <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+      <div className="flex items-start gap-2 p-3 mb-4 rounded-xl   ">
         <p className="text-xs text-amber-700 dark:text-amber-400">
           This action will remove your voter registration and return any rent to
           your wallet.
         </p>
       </div>
 
-      <button onClick={closeVoter} className="btn-danger w-full">
+      <button onClick={closeVoter} className="w-full bg-red-600 rounded-lg py-2.5 flex items-center justify-center gap-2 transition-all duration-200">
         <UserMinus className="w-4 h-4" />
         Close Voter Account
       </button>

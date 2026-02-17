@@ -104,7 +104,6 @@ const RegisterProposal = ({ walletAddress, idlWithAddress, getProvider }) => {
       >
         <div>
           <label className="input-label flex items-center gap-2">
-            <FileEdit className="w-3.5 h-3.5" />
             Description
           </label>
           <input
@@ -118,7 +117,6 @@ const RegisterProposal = ({ walletAddress, idlWithAddress, getProvider }) => {
 
         <div>
           <label className="input-label flex items-center gap-2">
-            <Calendar className="w-3.5 h-3.5" />
             Deadline
           </label>
           <input
@@ -132,7 +130,6 @@ const RegisterProposal = ({ walletAddress, idlWithAddress, getProvider }) => {
 
         <div>
           <label className="input-label flex items-center gap-2">
-            <Coins className="w-3.5 h-3.5" />
             Token Stake Amount
           </label>
           <input
@@ -145,7 +142,7 @@ const RegisterProposal = ({ walletAddress, idlWithAddress, getProvider }) => {
           />
         </div>
 
-        <button type="submit" className="btn-primary w-full">
+        <button type="submit" className="w-full bg-green-600 rounded-lg py-2.5 flex items-center justify-center gap-2 transition-all duration-200">
           <PlusCircle className="w-4 h-4" />
           Register Proposal
         </button>
